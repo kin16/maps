@@ -3,17 +3,24 @@ import requests
 
 class Map:
     def __init__(self):
-        self.lat = 48.1501781
-        self.lon = 11.5106525
+        self.lat = 48.137919
+        self.lon = 11.575129
         self.size = "600,400"
-        self.z = "10"
+        self.zoom = 10
+
+    def up_zoom(self):
+        if self.zoom < 17:
+            self.zoom += 1
+
+    def down_zoom(self):
+        if self.zoom > 0:
+            self.zoom -= 1
 
     def coords(self):
         return f"{self.lon},{self.lat}"
 
 def download(parametrs):
     request = f"https://static-maps.yandex.ru/1.x/?ll={parametrs[0]}&size={parametrs[1]}&l=map&z={parametrs[2]}"
-    print(request)
     response = requests.get(request)
 
     image = "map.png"
@@ -33,6 +40,11 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        screen.blit(pygame.image.load(download([map.coords(), map.size, map.z])), (0, 0))
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_PAGEUP:
+                    map.up_zoom()
+                if event.key == pygame.K_PAGEDOWN:
+                    map.down_zoom()
+        screen.blit(pygame.image.load(download([map.coords(), map.size, str(map.zoom)])), (0, 0))
         pygame.display.flip()
     pygame.quit()
