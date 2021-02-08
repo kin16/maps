@@ -3,8 +3,8 @@ import requests
 
 class Map:
     def __init__(self):
-        self.lat = 48.137919
-        self.lon = 11.575129
+        self.lat = 54.739646
+        self.lon = 55.950876
         self.size = "600,400"
         self.zoom = 10
 
